@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: iceberg_source
+    database: ICEBERG_TRIAL
+    schema: PUBLIC
+    tables:
+      - name: business_table
