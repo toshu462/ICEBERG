@@ -23,7 +23,25 @@ target-path: "target"  # directory which will store compiled SQL files
 clean-targets:         # directories to be removed by `dbt clean`
   - "target"
   - "dbt_packages"
+vars:
+  #These variable values defined here are just dummies to understand the format of variable.
+  # the actual value will be passed from Airflow for each run
 
+  # Elt by will have run id (timestamp) suffixed to dag id
+  elt_by: 'dbt_models_run_all_dag___email_d_task___manual__2022-02-01T15:16:24.329290+00:00'
+  # run_id which is the last field delimeted by _ in elt_by passed from dag
+  run_id: SPLIT_PART('{{ var('elt_by') }}', '_', -1)
+  # application to be executed by airflow
+  application: 'DBT'
+  # For PII only - the seed that will be the source of the pii model to execute. Defaulted to SFMC seed
+  pii_src: 'pii_sfmc_src_field_map_r'
+  # If we dont want to run PII then just change pii_adm w value diff than true
+  pii_adm: 'true'
+
+  #setting database to be used throughout the scripts. Format will be ENV_PROJECT_AREA
+  hub_db: 'hub'
+  cur_schema: 'dbt_schema'
+  raw_db: 'iceberg_trial'
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
